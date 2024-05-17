@@ -17,7 +17,7 @@ filter New-GitHubOrganizationInvite {
         Invites the octocat user to the PSModule organization as an admin.
 
         .EXAMPLE
-        New-GitHubOrganizationInvite -OrganizationName 'PSModule' -EmailAddress 'octocat@github.com'
+        New-GitHubOrganizationInvite -OrganizationName 'PSModule' -Email 'octocat@github.com'
 
         Sends an invitation email to octocat@github.com to invite them to the PSModule organization.
 
@@ -35,7 +35,7 @@ filter New-GitHubOrganizationInvite {
         )]
         [Parameter(
             Mandatory,
-            ParameterSetName = 'byEmailAddress',
+            ParameterSetName = 'byEmail',
             ValueFromPipelineByPropertyName
         )]
         [Alias('login')]
@@ -43,6 +43,7 @@ filter New-GitHubOrganizationInvite {
         [Alias('owner')]
         [string] $OrganizationName,
 
+        # The handle for the GitHub user account.
         [Parameter(
             Mandatory,
             ParameterSetName = 'byUserName',
@@ -50,12 +51,13 @@ filter New-GitHubOrganizationInvite {
         )]
         [string]$UserName,
 
+        # The email address of the user to invite.
         [Parameter(
             Mandatory,
-            ParameterSetName = 'byEmailAddress',
+            ParameterSetName = 'byEmail',
             ValueFromPipelineByPropertyName
         )]
-        [string]$EmailAddress,
+        [string]$Email,
 
 
         [ValidateSet('direct_member', 'admin', 'billing_manager', 'reinstate')]
@@ -69,9 +71,9 @@ filter New-GitHubOrganizationInvite {
                 role       = $Role
             }
         }
-        'byEmailAddress' {
+        'byEmail' {
             $body = @{
-                email = $EmailAddress
+                email = $Email
                 role  = $Role
             }
         }
